@@ -15,7 +15,7 @@ data = []
 diff = []
 for _ in range(n):
     data.append(int(sys.stdin.readline()))
-data = sorted(data)
+data = ed(data)
 for i in range(n-1):
     diff.append(data[i+1]-data[i])
 while len(diff) != 1:

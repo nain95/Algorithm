@@ -8,6 +8,7 @@ def init():
                 q.append((i, j, 0))
                 return
 
+
 def bfs(cnt):
     while q:
         x, y, k = q.popleft()
