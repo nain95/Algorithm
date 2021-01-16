@@ -1,20 +1,16 @@
 import sys
+from collections import defaultdict
 
-def count(n):
-    countlist = [0, 0, 1, 1]
-    if 1<=n and n<=3:
-        return countlist[n]
-    else:
-        for i in range(4,n+1):
-            min_num = countlist[i-1]+1
-            if i%3 ==0:
-                tmp = countlist[int(i/3)]+1
-                min_num = min(min_num,tmp)
-            elif i%2 ==0:
-                tmp = countlist[int(i/2)] + 1
-                min_num = min(min_num, tmp)
-            countlist.append(min_num)
-        return countlist[i]
+def solve(n):
+    dp[1] = 0
+    for i in range(2,n+1):
+        dp[i] = dp[i-1] + 1
+        if i % 2 == 0:
+            dp[i] = min(dp[i], dp[i/2] + 1)
+        if i % 3 == 0:
+            dp[i] = min(dp[i], dp[i/3] + 1)
 
-a=int(sys.stdin.readline())
-print(count(a))
+a = int(sys.stdin.readline())
+dp = defaultdict(int)
+solve(a)
+print(dp[a])
