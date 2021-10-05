@@ -1,5 +1,6 @@
 import sys
-from _collections import deque
+from collections import deque
+
 def left():
     global score
     return_data = [[0]*N for _ in range(N)]
@@ -50,7 +51,7 @@ def right():
     return return_data
 def up():
     global score
-    return_data = [[0]*N for _ in range(N)]
+    return_data = [[0]* N for _ in range(N)]
     for i in range(N):
         temp = deque()
         check = 0
@@ -102,6 +103,7 @@ cube = []
 N = 4
 for i in range(0,len(case),4):
     case_list.append(case[i:i+4])
+for i in range(0, N * N, 4):
     if i+3 < len(cube_list):
         cube.append(cube_list[i:i+4])
 while case_list:

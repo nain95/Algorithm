@@ -2,65 +2,43 @@ import sys
 from collections import deque
 
 def D(num):
-    num = int(num)
-    num = (num * 2) % 10000
-    num = str(num)
-    while len(num) != 4:
-        num = '0' + num
-    return num
+    return (num * 2) % 10000
 
 def S(num):
-    num = int(num) - 1
+    num -= 1
     if num == -1:
         num = 9999
-    num = str(num)
-    while len(num) != 4:
-        num = '0' + num
     return num
 
 def L(num):
-    num = list(num)
-    tmp = num[0]
-    num[0] = num[1]
-    num[1] = num[2]
-    num[2] = num[3]
-    num[3] = tmp
-    return "".join(num)
+    tmp = int(num / 1000)
+    num = num % 1000 * 10 + tmp
+    return num
 
 def R(num):
-    num = list(num)
-    tmp = num[3]
-    num[3] = num[2]
-    num[2] = num[1]
-    num[1] = num[0]
-    num[0] = tmp
-    return "".join(num)
+    tmp = num % 10
+    num = int(num / 10) + (tmp * 1000)
+    return num
 
 def bfs():
-    temp = a
-    queue = deque([a])
+    queue = deque([[a, '']])
     command = [D,S,L,R]
-    dp = []
+    visited = {a : True}
     while deque:
-        length = len(queue)
-        dp.append([])
-        for _ in range(length):
-            cur = queue.popleft()
-            if cur == b:
-                return dp
-            for k in range(4):
-                queue.append(command[k](cur))
-                dp[-1].append(command[k](cur))
+        cur, cur_command = queue.popleft()
+        if cur == b:
+            return cur_command
+        for k in range(4):
+            command_cur = command[k](cur)
+            if command_cur not in visited:
+                if command_cur == b:
+                    return cur_command + dic[k]
+                visited[command_cur] = True
+                queue.append([command_cur, cur_command + dic[k]])
 
 n = int(sys.stdin.readline())
 dic = {0: 'D', 1: 'S', 2: 'L', 3: 'R'}
 for _ in range(n):
-    a,b = sys.stdin.readline().split()
-    while len(a) != 4:
-        a = '0' + a
-    while len(b) != 4:
-        b = '0' + b
+    a,b = list(map(int, sys.stdin.readline().split()))
     res = bfs()
-    for r in res:
-        print(r, end='')
-    print()
+    print(res)

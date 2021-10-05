@@ -1,33 +1,33 @@
 import sys,heapq
+from collections import defaultdict
+
+
+def dijkstra(start):
+    heap = []
+    heapq.heappush(heap, (0, start))
+    distance[start] = 0
+    while heap:
+        dist, now = heapq.heappop(heap)
+        if distance[now] < dist:
+            continue
+        for data in graph[now]:
+            cost = dist + data[1]
+            if cost < distance[data[0]]:
+                distance[data[0]] = cost
+                heapq.heappush(heap, (cost, data[0]))
+
+
 V,E = map(int,sys.stdin.readline().split())
 K = int(sys.stdin.readline())
-heap = []
-dist = [V*11]*(V+1)
-adj = [[V*11]*(V+1) for _ in range(V+1)]
-dist[K] = 0
+graph = defaultdict(list)
 for _ in range(E):
-    temp = list(map(int,sys.stdin.readline().split()))
-    adj[temp[0]][temp[1]] = temp[2]
-for i in range(1,V+1):
-    if i == K:
-        heapq.heappush(heap,(0,i))
-    else:
-        heapq.heappush(heap, (V*11, i))
-while 1:
-    if heap == []:
-        break
-    if heap[0][1] == V*11:
-        break
-    pop_data = heapq.heappop(heap)
-    if pop_data[0] > dist[pop_data[1]]:
-        continue
-    else:
-        for i in range(len(adj[pop_data[1]])):
-            if adj[pop_data[1]][i] != V*11:
-                dist[i] = min(dist[i],dist[pop_data[1]]+adj[pop_data[1]][i])
-                heapq.heappush(heap,(dist[i],i))
-for i in range(1,len(dist)):
-    if dist[i] == V*11:
+    u, v, w = list(map(int, sys.stdin.readline().split()))
+    graph[u].append([v, w])
+distance = [float('inf')] * (V + 1)
+dijkstra(K)
+print(distance)
+for i in range(1, len(distance)):
+    if distance[i] == float('inf'):
         print('INF')
     else:
-        print(dist[i])
+        print(distance[i])
