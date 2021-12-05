@@ -1,5 +1,4 @@
 import sys
-import math
 
 def check(x: int, y : int, cur_matrix: list) -> int:
     ratio = 1
@@ -13,32 +12,6 @@ def check(x: int, y : int, cur_matrix: list) -> int:
             return -1
         ratio += 1
     return 1
-
-def count_rest(x : int, y : int, matrix: list, type : int) -> int:
-    cnt = 0
-    if type == 0:   # white
-        for j in range(y, n ,2):
-            if matrix[x][j] == 1:
-                cnt += 1
-        for i in range(x+1, n):
-            tmp = 1
-            if i % 2 == 0:
-                tmp = 0
-            for j in range(tmp, n, 2):
-                if matrix[i][j] == 1:
-                    cnt += 1
-    else:
-        for j in range(y, n ,2):
-            if matrix[x][j] == 1:
-                cnt += 1
-        for i in range(x+1, n):
-            tmp = 0
-            if i % 2 == 0:
-                tmp = 1
-            for j in range(tmp, n, 2):
-                if matrix[i][j] == 1:
-                    cnt += 1
-    return cnt
 
 def dfs(x : int, y : int, matrix : list, ans : int, depth : int, cnt : int) -> int:
     if ans > depth + cnt:
@@ -77,10 +50,25 @@ def dfs2(x : int, y : int, matrix : list, ans : int, depth : int, cnt : int) -> 
 if __name__ == '__main__':
     n = int(sys.stdin.readline())
     matrix = []
+    white = 0
+    black = 0
     for i in range(n):
         matrix.append(list(map(int, sys.stdin.readline().split())))
-    white = count_rest(0,0,matrix,0)
-    black = count_rest(0,0,matrix,1)
+        for j in range(n):
+            if i % 2 == 0:
+                if j % 2 == 0:
+                    if matrix[i][j] == 1:
+                        white += 1
+                else:
+                    if matrix[i][j] == 1:
+                        black += 1
+            else:
+                if j % 2 == 0:
+                    if matrix[i][j] == 1:
+                        black += 1
+                else:
+                    if matrix[i][j] == 1:
+                        white += 1
     res = 0
     res += dfs(0, 0, matrix, 0 , 1, white)
     res += dfs2(0, 0, matrix, 0 , 1, black)
