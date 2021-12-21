@@ -10,38 +10,41 @@ def find(x):
 
 def union(x,y):
     x = find(x)
-    y = find(x)
-
+    y = find(y)
     if x == y:
         return
-
     node[y] = x
 
 N, M = list(map(int, sys.stdin.readline().split()))
-whoKnowsTruth = list(map(int, sys.stdin.readline().split()))
+whoKnowsTruth = list(map(int, sys.stdin.readline().split()))[1:]
 parties = []
-if whoKnowsTruth[0] == 0:
+if len(whoKnowsTruth) == 0:
     for _ in range(M):
         party = (list(map(int, sys.stdin.readline().split())))
     print(M)
 else:
     answer = 0
     node = {}
-    for num in whoKnowsTruth[1:]:
-        node[num] = whoKnowsTruth[1]
+    for i in range(N):
+        node[i+1] = i + 1
+    for num in whoKnowsTruth:
+        node[num] = whoKnowsTruth[0]
     for _ in range(M):
         party = (list(map(int, sys.stdin.readline().split())))
-        for num in node.keys():
-            if num in party[1:]:
-                for new in party:
-                    if new not in node:
-                        node[new] = new
-                        union(num, new)
-                break
-        else:
-            for num in party[1:]:
-                node[num] = party[1]
+        for idx in range(1, len(party) - 1):
+            union(party[idx], party[idx+1])
+        parties.append(party[1:])
+    for n in node:
+        find(n)
     ans = set()
     for i in node.keys():
         ans.add(find(i))
-    print(len(ans) - 1)
+    res = 0
+    for i in parties:
+        for j in i:
+            if node[j] == node[whoKnowsTruth[0]]:
+                break
+        else:
+            res += 1
+
+    print(res)
