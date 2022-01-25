@@ -1,4 +1,5 @@
 import sys
+
 N = int(sys.stdin.readline())
 cnt = 0
 range = 1
@@ -9,7 +10,7 @@ if N == 1:
 while 1:
     if range >= N:
         break
-    tmp = 6*cnt
+    tmp = 6 * cnt
     cnt += 1
-    range+= tmp
+    range += tmp
 print(cnt)

@@ -16,6 +16,7 @@ def check(S, E):
             dp[i][j] = check(i,j)
             if dp[i][j] != 1:
                 cnt += 1
+                break
             i += 1
             j -= 1
         if cnt == 0 and data[S] == data[E]:

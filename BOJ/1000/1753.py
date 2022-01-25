@@ -25,7 +25,6 @@ for _ in range(E):
     graph[u].append([v, w])
 distance = [float('inf')] * (V + 1)
 dijkstra(K)
-print(distance)
 for i in range(1, len(distance)):
     if distance[i] == float('inf'):
         print('INF')
